@@ -1,0 +1,76 @@
+using System.Collections.Generic;
+using System;
+
+namespace Inheritance15
+{
+					
+public class Program
+{
+	public static void Main()
+	{
+		var bob = new HourlyEmployee();
+		bob.Name = "Bob";			
+		bob.hourlyRate = 27.5D;
+		bob.hoursWorked = 40.0D;
+		
+		var steve = new SalariedEmployee();
+		steve.Name = "Steve";
+		steve.YearlySalary = 50000D;
+		steve.WeeksWorked = 1D;
+		
+		var employees = new List<Employee>();
+		employees.Add(bob);
+		employees.Add(steve);
+	
+		PayEmployees(employees);
+					  
+		Console.ReadLine();
+					  					 	
+	}
+	
+	static void PayEmployees(List<Employee> employees)
+	{
+		foreach (var employee in employees)
+		{
+			employee.PayEmployee();	
+		}		
+	}	
+}
+	
+	abstract class Employee
+	{
+		public string Name {get; set;}
+		
+		public abstract void PayEmployee();		
+	}
+	
+	
+	class HourlyEmployee : Employee
+	{
+		public double hourlyRate {get;set;}
+		public double hoursWorked {get;set;}
+		
+		//Implement the abstract class
+		
+		public override void PayEmployee() 
+		{			
+			var paymentAmount = hourlyRate * hoursWorked;
+			Console.WriteLine(String.Format("{0} is owed {1})", Name, paymentAmount.ToString("C0")));				}
+	}
+	
+	class SalariedEmployee : Employee
+	{
+		public double YearlySalary {get;set;}
+		public double WeeksWorked {get;set;}
+		
+		public override void PayEmployee()
+		{
+			var weeklySalary = YearlySalary / 52;
+			var paymentAmount = weeklySalary * WeeksWorked;
+			Console.WriteLine(String.Format("{0} is owed {1})", Name, paymentAmount.ToString("C0")));			
+			
+		}
+		
+	}
+
+}
